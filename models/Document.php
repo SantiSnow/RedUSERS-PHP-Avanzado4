@@ -2,6 +2,7 @@
 
 class Document extends Model
 {
+    protected static string $table = "documents";
 
     protected $name;
     protected $file;

@@ -4,6 +4,7 @@
 class Role extends Model
 {
     protected $name;
+    protected static string $table = "roles";
 
     public function __construct($name)
     {

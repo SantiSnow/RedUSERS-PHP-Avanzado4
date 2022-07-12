@@ -9,6 +9,7 @@ class User extends Model
     protected string $password;
     protected int $role_id;
     protected bool $email_verified;
+    protected static string $table = "users";
 
     public function __construct($name, $email, $password)
     {
@@ -27,10 +28,10 @@ class User extends Model
             VALUES (:name, :email, :password, :role_id, :email_verified)");
 
         $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":mail", $this->email);
+        $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":role_id", $this->role_id);
-        $stmt->bindParam(":mail_verified", $this->email_verified);
+        $stmt->bindParam(":email_verified", $this->email_verified);
 
         return $stmt->execute();
     }
