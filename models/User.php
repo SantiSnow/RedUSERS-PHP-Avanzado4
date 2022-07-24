@@ -1,9 +1,12 @@
 <?php
 
 require_once 'Model.php';
+require_once 'Role.php';
+require_once 'auth/Authenticable.php';
 
-class User extends Model
+class User extends Model implements Authenticable
 {
+    protected int $id;
     protected string $name;
     protected string $email;
     protected string $password;
@@ -11,11 +14,12 @@ class User extends Model
     protected bool $email_verified;
     protected static string $table = "users";
 
-    public function __construct($name, $email, $password)
+    public function __construct($id, $name, $email, $password)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->email = $email;
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
         $this->role_id = 2;
         $this->email_verified = false;
     }
@@ -36,19 +40,24 @@ class User extends Model
         return $stmt->execute();
     }
 
-    public static function login(Connection $connection,$email, $password)
+    public static function login(Connection $connection, $email, $password)
     {
         $con = $connection->get_connection();
 
-        $stmt = $con->prepare("SELECT * FROM users WHERE mail= ?");
+        $stmt = $con->prepare("SELECT * FROM users WHERE email= ?");
         $stmt->execute(array($email));
         $user = $stmt->fetch();
 
         if($user && password_verify($password, $user['password']))
         {
-            return true;
+            return new User($user['id'], $user['name'], $user['email'], $user['password']);
         }
-        return false;
+        return null;
+    }
+
+    public static function logout()
+    {
+
     }
 
     public static function find(Connection $connection, int $id)
@@ -59,4 +68,40 @@ class User extends Model
 
         return $stmt->fetch();
     }
+
+    public static function getRole(Connection $connection, int $id)
+    {
+        $con = $connection->get_connection();
+        $stmt = $con->prepare("SELECT role_id FROM users WHERE id= ?");
+        $stmt->execute(array($id));
+        $user = $stmt->fetch();
+
+        $stmt = $con->prepare("SELECT * FROM roles WHERE id= ?");
+        $stmt->execute(array($user['role_id']));
+
+
+        //segundo
+        /*$role = $stmt->fetch();
+        return new Role($role['title']);*/
+
+        //primero
+        return $stmt->fetch();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
 }

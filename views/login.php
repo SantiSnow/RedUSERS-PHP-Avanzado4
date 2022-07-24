@@ -33,7 +33,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6 col-md-6 col-lg-6 d-flex justify-content-center align-items-center" id="formLogin">
-                <form action="" method="post">
+                <form action="inicio.php" method="post">
                     <label for="email">Email: </label>
                     <input type="email" name="email" class="form-control" required />
                     <br />

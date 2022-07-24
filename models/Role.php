@@ -11,6 +11,11 @@ class Role extends Model
         $this->name = $name;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function save(Connection $connection)
     {
         $connection = $connection->get_connection();
