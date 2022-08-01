@@ -13,6 +13,14 @@ abstract class Model
         }
     }
 
+    public static function all(Connection $connection)
+    {
+        $con = $connection->get_connection();
+        $stmt = $con->prepare("SELECT * FROM ".self::$table);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
     public static function find(Connection $connection, int $id)
     {
         $con = $connection->get_connection();

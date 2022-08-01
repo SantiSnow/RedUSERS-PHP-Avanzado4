@@ -79,13 +79,8 @@ class User extends Model implements Authenticable
         $stmt = $con->prepare("SELECT * FROM roles WHERE id= ?");
         $stmt->execute(array($user['role_id']));
 
-
-        //segundo
-        /*$role = $stmt->fetch();
-        return new Role($role['title']);*/
-
-        //primero
-        return $stmt->fetch();
+        $role = $stmt->fetch();
+        return new Role($role['title']);
     }
 
     /**

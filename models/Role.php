@@ -3,7 +3,7 @@
 
 class Role extends Model
 {
-    protected $name;
+    protected string $name;
     protected static string $table = "roles";
 
     public function __construct($name)
@@ -11,9 +11,20 @@ class Role extends Model
         $this->name = $name;
     }
 
-    public function getName()
+    /**
+     * @return string
+     */
+    public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function save(Connection $connection)
@@ -34,4 +45,7 @@ class Role extends Model
 
         return $stmt->fetch();
     }
+
+
+
 }

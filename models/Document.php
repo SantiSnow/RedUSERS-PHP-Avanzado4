@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Model.php';
+
 class Document extends Model
 {
     protected static string $table = "documents";
@@ -14,6 +16,15 @@ class Document extends Model
         $this->file = $file;
         $this->status = "Pending";
     }
+
+    public static function all(Connection $connection)
+    {
+        $con = $connection->get_connection();
+        $stmt = $con->prepare("SELECT id, name, file, status FROM ".self::$table);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function save(Connection $connection)
     {
@@ -36,4 +47,6 @@ class Document extends Model
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
+
+
 }
