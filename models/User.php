@@ -83,6 +83,14 @@ class User extends Model implements Authenticable
         return new Role($role['title']);
     }
 
+    public static function all(Connection $connection)
+    {
+        $con = $connection->get_connection();
+        $stmt = $con->prepare("SELECT id, name, email, role_id FROM ".self::$table);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     /**
      * @return int
      */

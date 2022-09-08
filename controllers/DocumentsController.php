@@ -16,4 +16,11 @@ class DocumentsController extends Controller
         }
         return false;
     }
+
+    public static function markAsDone(Connection $connection, $id, $status)
+    {
+        $con = $connection->get_connection();
+        $stmt = $con->prepare("UPDATE documents SET status=".self::escapeData(!$status)." WHERE id=".self::escapeData($id));
+        return $stmt->execute();
+    }
 }

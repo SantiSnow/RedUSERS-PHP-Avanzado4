@@ -14,7 +14,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="dashboard.php">
             <i class="fas fa-hamburger"></i>
             <span>Documentos</span></a>
     </li>
@@ -35,8 +35,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Configuración de usuarios</h6>
-                <a class="collapse-item" href="">Ver todos</a>
-                <a class="collapse-item" href="">Crear</a>
+                <a class="collapse-item" href="usuarios.php">Ver todos</a>
+                <?php if (User::getRole($connection, $_SESSION['id'])->getName()==="admin"){ ?>
+                    <a class="collapse-item" href="crear-usuario.php">Crear</a>
+                <?php } ?>
             </div>
         </div>
     </li>

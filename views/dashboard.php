@@ -42,9 +42,10 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Archivo</th>
+                                <th scope="col">Finalizar</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,12 +53,17 @@
                                 foreach ($documents as $document){
                                 ?>
                                 <tr>
-                                    <td scope="row"><?php echo $document['id'] . "<br />"; ?></td>
-                                    <td><?php echo $document['name'] . "<br />"; ?></td>
-                                    <td><?php echo $document['status'] . "<br />"; ?></td>
+                                    <td scope="row"><?php echo $document['id']; ?></td>
+                                    <td><?php echo $document['name']; ?></td>
+                                    <td><?= ($document['status']==0) ? "Pendiente" : "Listo"; ?></td>
                                     <td>
                                         <a href="public/downloads/<?php echo $document['file']; ?>"
                                            download class="btn btn-primary">Descargar Archivo</a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning" onclick="marcarComoTerminado(<?= $document['id'] ?>, <?= $document['status'] ?>)">
+                                            Finalizar
+                                        </button>
                                     </td>
                                 </tr>
                                 <?php
@@ -77,6 +83,38 @@
 </div>
 <?php include('views/shared/logout-modal.php') ?>
 <?php include('views/shared/footer.php') ?>
+
+<script>
+    function marcarComoTerminado(id, status)
+    {
+        console.log("Documento terminado: ", id);
+
+        const peticion = JSON.stringify({
+            "id": id,
+            "status": status
+        });
+
+        console.log(peticion);
+
+        fetch("http://localhost/pruebas-php-2/mark-as-done.php", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+            },
+            body: peticion
+        })
+            .then((response) => response.json())
+            .then(
+                (result) => {
+                    console.log(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+
+    }
+</script>
 
 </body>
 </html>

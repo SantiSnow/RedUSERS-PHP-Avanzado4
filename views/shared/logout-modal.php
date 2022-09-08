@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">Seleccione Logout para salir, o cancel para continuar en el sistema.</div>
-            <form class="modal-footer" action="" method='post'>
+            <form class="modal-footer" action="logout.php" method='get'>
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <button class="btn btn-primary" type='submit'>Logout</button>
             </form>
